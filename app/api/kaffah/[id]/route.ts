@@ -1,10 +1,10 @@
+import { NextRequest } from "next/server";
 import pool from "@/lib/db";
 
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, context: any) {
   try {
+    const { id } = context.params;
+
     const body = await req.json();
     const {
       januari,
@@ -49,7 +49,7 @@ export async function PUT(
         oktober,
         november,
         desember,
-        params.id,
+        id,
       ]
     );
 
@@ -59,6 +59,53 @@ export async function PUT(
   } catch (error) {
     console.error("PUT Error:", error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
+}
+
+export async function DELETE(req: NextRequest, context: any) {
+  try {
+    const { id } = context.params;
+
+    await pool.query(`DELETE FROM kaffah WHERE id = $1`, [id]);
+
+    return new Response(JSON.stringify({ message: "Data deleted" }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("DELETE Error:", error);
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+      status: 500,
+    });
+  }
+}
+
+export async function PATCH(req: NextRequest, context: any) {
+  try {
+    const { id } = context.params;
+    const body = await req.json();
+    const { name, tahun } = body;
+
+    // Validasi sederhana
+    if (!name || !tahun) {
+      return new Response(JSON.stringify({ error: "Field tidak lengkap" }), {
+        status: 400,
+      });
+    }
+
+    await pool.query(`UPDATE kaffah SET name = $1, tahun = $2 WHERE id = $3`, [
+      name,
+      tahun,
+      id,
+    ]);
+
+    return new Response(JSON.stringify({ message: "Data berhasil diupdate" }), {
+      status: 200,
+    });
+  } catch (error) {
+    console.error("PATCH Error:", error);
+    return new Response(JSON.stringify({ error: "Terjadi kesalahan server" }), {
       status: 500,
     });
   }

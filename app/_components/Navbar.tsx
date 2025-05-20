@@ -14,7 +14,12 @@ const Navbar = () => {
       {status === "loading" ? (
         <p className="text-sm">...</p>
       ) : session?.user ? (
-        <button onClick={() => signOut()} className="text-sm hover:underline">
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            signOut();
+          }}
+          className="text-sm hover:underline">
           Logout
         </button>
       ) : (

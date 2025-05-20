@@ -23,6 +23,7 @@ type KaffahData = {
 
 const Content = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editData, setEditData] = useState<any | null>(null);
   const [originalData, setOriginalData] = useState<KaffahData[]>([]);
   const [kaffahData, setKaffahData] = useState<KaffahData[]>([]);
   const [tahunData, setTahunData] = useState<string[]>([]);
@@ -57,6 +58,11 @@ const Content = () => {
     );
   };
 
+  const handleEdit = (data: any) => {
+    setEditData(data);
+    setIsModalOpen(true);
+  };
+
   const handleSave = async () => {
     const updates = Object.entries(editedData);
 
@@ -88,6 +94,28 @@ const Content = () => {
 
     setEditedData({});
     alert("Data berhasil diupdate!");
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Yakin ingin menghapus data ini?")) return;
+
+    try {
+      const res = await fetch(`/api/kaffah/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Gagal menghapus data");
+      }
+
+      // Update state setelah delete
+      setKaffahData((prev: KaffahData[]) =>
+        prev.filter((item) => item.id !== id)
+      );
+    } catch (err: any) {
+      console.error("Error:", err.message);
+      alert("Terjadi kesalahan saat menghapus data");
+    }
   };
 
   const handleFilter = (selectedYear: string) => {
@@ -130,31 +158,43 @@ const Content = () => {
         </ul>
       </div>
 
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className=" dark:text-white px-4 py-2 hover:underline transition border border-black rounded-xl">
-          + Tambah Data
-        </button>
-      </div>
+      <div className="flex gap-4">
+        <div>
+          <div className="flex justify-start">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className=" appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400 hover:cursor-pointer">
+              Tambah Data
+            </button>
+          </div>
+        </div>
 
-      {/* Filter Tahun */}
-      <form className="flex flex-col sm:flex-row items-center gap-4 my-5">
-        <label htmlFor="tahun" className="font-medium dark:text-white">
-          Tahun:
-        </label>
-        <select
-          id="tahun"
-          className="w-full sm:w-auto px-4 py-2 border rounded-lg dark:text-white"
-          onChange={(e) => handleFilter(e.target.value)}>
-          <option value="">Semua data</option>
-          {tahunData.map((tahun) => (
-            <option key={tahun} value={tahun}>
-              {tahun}
-            </option>
-          ))}
-        </select>
-      </form>
+        <form className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="relative w-full sm:w-auto">
+            <select
+              id="tahun"
+              className="block w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 pr-10 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400"
+              onChange={(e) => handleFilter(e.target.value)}>
+              <option value="">Semua data</option>
+              {tahunData.map((tahun) => (
+                <option key={tahun} value={tahun}>
+                  {tahun}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-500 dark:text-gray-400">
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24">
+                <path d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </form>
+      </div>
 
       {/* Tabel Editable */}
       <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10 mb-10">
@@ -168,13 +208,17 @@ const Content = () => {
                   {bulan}
                 </th>
               ))}
+              <th className="pl-18 py-2">Aksi</th>
             </tr>
           </thead>
           <tbody>
             {kaffahData.map((data) => (
               <tr key={data.id}>
                 <td className="px-4 py-2 text-center">{data.tahun}</td>
-                <td className="px-4 py-2 text-center">{data.name}</td>
+                <td className="px-4 py-2 text-center min-w-[250px]">
+                  {data.name}
+                </td>
+
                 {bulanList.map((bulan) => (
                   <td key={bulan} className="px-2 py-1">
                     <input
@@ -187,6 +231,20 @@ const Content = () => {
                     />
                   </td>
                 ))}
+                <td className="px-4 py-2 text-center">
+                  <button
+                    onClick={() => handleDelete(data.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">
+                    Hapus
+                  </button>
+                </td>
+                <td className="px-4 py-2 text-center">
+                  <button
+                    onClick={() => handleEdit(data)}
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
+                    Edit
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -197,7 +255,7 @@ const Content = () => {
       <div className="mt-6 mb-10 text-right">
         <button
           onClick={handleSave}
-          className=" dark:text-white px-4 py-2 hover:underline transition border border-black rounded-xl">
+          className=" appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400 hover:cursor-pointer">
           Save Changes
         </button>
       </div>
@@ -211,7 +269,9 @@ const Content = () => {
           setOriginalData(data.kaffahData);
           setKaffahData(data.kaffahData);
           setTahunData(data.tahunData);
+          setEditData(null); // reset setelah berhasil simpan
         }}
+        editData={editData} // ini dia props tambahan buat edit
       />
     </div>
   );
