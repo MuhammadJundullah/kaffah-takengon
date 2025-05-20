@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import AddModal from "@/app/_components/AddModal";
 
 type KaffahData = {
   id: string;
@@ -21,6 +22,7 @@ type KaffahData = {
 };
 
 const Content = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [originalData, setOriginalData] = useState<KaffahData[]>([]);
   const [kaffahData, setKaffahData] = useState<KaffahData[]>([]);
   const [tahunData, setTahunData] = useState<string[]>([]);
@@ -87,7 +89,6 @@ const Content = () => {
     setEditedData({});
     alert("Data berhasil diupdate!");
   };
-  
 
   const handleFilter = (selectedYear: string) => {
     if (selectedYear === "") {
@@ -114,10 +115,10 @@ const Content = () => {
 
   return (
     <div className="min-h-screen sm:p-4 text-black sm:m-10 mx-5">
-      <h1 className="text-lg sm:my-5">Tabel Informasi Pembayaran Kaffah</h1>
+      <h1 className="text-lg my-5">Tabel Informasi Pembayaran Kaffah</h1>
 
       {/* Panduan */}
-      <div className="text-gray-500 dark:text-slate-200 mb-5  sm:leading-10">
+      <div className="text-gray-500 dark:text-slate-200 mb-5 sm:leading-10 leading-8">
         <p>Panduan:</p>
         <ul>
           <li>- Setiap edisi kaffah rilis setiap jumatnya.</li>
@@ -127,6 +128,14 @@ const Content = () => {
           <li>- Kolom 4/4 artinya sudah lunas semua edisi di bulan itu.</li>
           <li>- Bisa filter berdasarkan tahun di bawah ini.</li>
         </ul>
+      </div>
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className=" dark:text-white px-4 py-2 hover:underline transition border border-black rounded-xl">
+          + Tambah Data
+        </button>
       </div>
 
       {/* Filter Tahun */}
@@ -148,7 +157,7 @@ const Content = () => {
       </form>
 
       {/* Tabel Editable */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10 mb-10">
         <table className="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-800 text-sm dark:text-white">
           <thead>
             <tr>
@@ -185,13 +194,25 @@ const Content = () => {
       </div>
 
       {/* Tombol Save */}
-      <div className="mt-6 text-right">
+      <div className="mt-6 mb-10 text-right">
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          className=" dark:text-white px-4 py-2 hover:underline transition border border-black rounded-xl">
           Save Changes
         </button>
       </div>
+
+      <AddModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={async () => {
+          const res = await fetch("/api/kaffah");
+          const data = await res.json();
+          setOriginalData(data.kaffahData);
+          setKaffahData(data.kaffahData);
+          setTahunData(data.tahunData);
+        }}
+      />
     </div>
   );
 };

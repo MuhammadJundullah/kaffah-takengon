@@ -8,11 +8,11 @@ const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="flex sm:justify-around justify-between items-center bg-gray-500 p-4 text-white sm:text-2xl">
-      <p>Website Kaffah Takengon</p>
+    <div className="flex sm:px-15 justify-between items-center bg-gray-500 p-4 text-white sm:text-2xl font-bold">
+      <p>Kaffah Takengon</p>
 
       {status === "loading" ? (
-        <p className="text-sm">Loading...</p>
+        <p className="text-sm">...</p>
       ) : session?.user ? (
         <button onClick={() => signOut()} className="text-sm hover:underline">
           Logout

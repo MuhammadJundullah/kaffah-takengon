@@ -26,8 +26,10 @@ const LoginPage = () => {
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-lg text-center">
           <h1 className="text-2xl font-bold sm:text-3xl hover:underline">
-            <Link href="/" className="flex items-center gap-3 justify-center my-7">
-            <IoIosArrowBack/>
+            <Link
+              href="/"
+              className="flex items-center gap-3 justify-center my-7">
+              <IoIosArrowBack />
               Kembali ke Dashboard
             </Link>
           </h1>
@@ -49,7 +51,7 @@ const LoginPage = () => {
             </div>
           )}
 
-          <div>
+          <div className="py-5">
             <label htmlFor="email" className="sr-only">
               Email
             </label>
@@ -66,7 +68,7 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div>
+          <div className="py-5">
             <label htmlFor="password" className="sr-only">
               Password
             </label>
@@ -83,10 +85,10 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between py-5">
             <button
               type="submit"
-              className="inline-block rounded-lg underline  px-5 py-3 text-sm font-medium text-white">
+              className="inline-block rounded-lg underline  px-5 py-3 text-sm font-medium dark:text-white border border-black">
               Sign in
             </button>
           </div>
