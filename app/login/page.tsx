@@ -19,7 +19,7 @@ const LoginPage = () => {
     if (token) {
       router.replace("/admin/dashboard");
     }
-  }, []);
+  }, [router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
