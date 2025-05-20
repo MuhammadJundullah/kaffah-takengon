@@ -9,14 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-icons/all-files": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.6",
     "@types/node": "22.15.1",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
+    "bcryptjs": "^3.0.2",
     "eslint": "9.25.1",
     "eslint-config-next": "15.3.1",
     "next": "15.3.1",
+    "next-auth": "^4.24.11",
+    "pg": "^8.15.6",
+    "pool": "^0.4.1",
+    "postcss": "^8.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
     "typescript": "5.8.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.6"
   }
 }
