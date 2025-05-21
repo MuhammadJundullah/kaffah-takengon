@@ -146,7 +146,7 @@ const Content = () => {
       <h1 className="text-lg my-5">Tabel Informasi Pembayaran Kaffah</h1>
 
       {/* Panduan */}
-      <div className="text-gray-500 dark:text-slate-200 mb-5 sm:leading-10 leading-8">
+      <div className="text-gray-500 dark:text-white mb-5 sm:leading-10 leading-8">
         <p>Panduan:</p>
         <ul>
           <li>- Setiap edisi kaffah rilis setiap jumatnya.</li>

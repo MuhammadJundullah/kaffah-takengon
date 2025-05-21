@@ -22,23 +22,27 @@ const handler = NextAuth({
         const { email, password } = credentials;
 
         try {
-          const query = "SELECT id, name, email, password FROM users WHERE email = $1";
+          const query =
+            "SELECT id, name, email, password FROM users WHERE email = $1";
           const values = [email];
 
           const result = await pool.query(query, values);
 
           if (result.rows.length > 0) {
-        const user = result.rows[0];
+            const user = result.rows[0];
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+            const isPasswordValid = await bcrypt.compare(
+              password,
+              user.password
+            );
 
-        if (isPasswordValid) {
-          return { id: user.id, name: user.name, email: user.email };
-        } else {
-          throw new Error("Email atau password salah");
-        }
+            if (isPasswordValid) {
+              return { id: user.id, name: user.name, email: user.email };
+            } else {
+              throw new Error("Email atau password salah");
+            }
           } else {
-        throw new Error("Email atau password salah");
+            throw new Error("Email atau password salah");
           }
         } catch (error) {
           console.error("Database error:", error);
@@ -47,13 +51,13 @@ const handler = NextAuth({
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET, // Ambil dari .env.local atau gunakan default
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/login", // custom login page
-    error: "/login", // biar error balik ke halaman login
+    signIn: "/login",
+    error: "/login",
   },
 });
 
