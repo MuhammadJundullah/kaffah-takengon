@@ -24,7 +24,7 @@ const Navbar = () => {
         </button>
       ) : (
         <Link href="/login" className="text-sm hover:underline">
-          Login as administrator
+          Login as admin
         </Link>
       )}
     </div>

@@ -7,6 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import ErrorMessage from "@/app/_components/ErrorMessage";
 import { Suspense } from "react";
 import { useRouter } from "next/navigation";
+import Footer from "../_components/Footer";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ const LoginPage = () => {
             {/* ⛔️ Ini dipisah ke komponen sendiri */}
             <ErrorMessage />
 
-            <div className="py-5 sm:py-0 rounded-lg border border-gray-200">
+            <div className="my-5 sm:py-0 rounded-lg border border-gray-200">
               <input
                 type="email"
                 name="email"
@@ -67,7 +68,7 @@ const LoginPage = () => {
               />
             </div>
 
-            <div className="py-5 sm:py-0 rounded-lg border border-gray-200">
+            <div className="my-5 sm:py-0 rounded-lg border border-gray-200">
               <input
                 type="password"
                 name="password"
@@ -88,6 +89,7 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
+      <Footer></Footer>
     </Suspense>
   );
 };

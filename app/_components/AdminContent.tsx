@@ -197,7 +197,7 @@ const Content = () => {
       </div>
 
       {/* Tabel Editable */}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10 mb-10">
+      <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10 sm:mb-10 mb-2">
         <table className="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-800 text-sm dark:text-white">
           <thead>
             <tr>
@@ -252,7 +252,7 @@ const Content = () => {
       </div>
 
       {/* Tombol Save */}
-      <div className="mt-6 mb-10 text-right">
+      <div className="sm:mt-6 mb-10 text-right">
         <button
           onClick={handleSave}
           className=" appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:border-blue-400 hover:cursor-pointer">
@@ -269,9 +269,9 @@ const Content = () => {
           setOriginalData(data.kaffahData);
           setKaffahData(data.kaffahData);
           setTahunData(data.tahunData);
-          setEditData(null); // reset setelah berhasil simpan
+          setEditData(null);
         }}
-        editData={editData} // ini dia props tambahan buat edit
+        editData={editData}
       />
     </div>
   );
