@@ -2,26 +2,16 @@
 
 import React from 'react'
 import { useEffect, useState } from "react";
-
-type KaffahData = {
-  id: string;
-  tahun: string;
-  name: string;
-  januari: string;
-  februari: string;
-  maret: string;
-  april: string;
-  mei: string;
-  juni: string;
-  juli: string;
-  agustus: string;
-  september: string;
-  oktober: string;
-  november: string;
-  desember: string;
-};
+import { useSession } from "next-auth/react";
+import { KaffahData } from "@/lib/types";
 
 const Content = () => {
+  const { data: session } = useSession();
+
+  if (session?.user) {
+    window.location.href = "/admin/dashboard";
+  }
+
   const [originalData, setOriginalData] = useState<KaffahData[]>([]);
   const [kaffahData, setKaffahData] = useState<KaffahData[]>([]);
 
@@ -209,6 +199,6 @@ const Content = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Content

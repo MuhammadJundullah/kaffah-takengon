@@ -2,24 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import AddModal from "@/app/_components/AddModal";
-
-type KaffahData = {
-  id: string;
-  tahun: string;
-  name: string;
-  januari: string;
-  februari: string;
-  maret: string;
-  april: string;
-  mei: string;
-  juni: string;
-  juli: string;
-  agustus: string;
-  september: string;
-  oktober: string;
-  november: string;
-  desember: string;
-};
+import { KaffahData } from "@/lib/types";
 
 const Content = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,7 +91,6 @@ const Content = () => {
         throw new Error("Gagal menghapus data");
       }
 
-      // Update state setelah delete
       setKaffahData((prev: KaffahData[]) =>
         prev.filter((item) => item.id !== id)
       );
@@ -151,9 +133,12 @@ const Content = () => {
         <ul>
           <li>- Setiap edisi kaffah rilis setiap jumatnya.</li>
           <li>
-            - Jika kolom bulan 1/4 artinya anda telah melunasi 1 dari 4 edisi.
+            - Jika kolom bulan 101 - 104 artinya anda telah melunasi kaffah dari
+            edisi 101 sampai 104.
           </li>
-          <li>- Kolom 4/4 artinya sudah lunas semua edisi di bulan itu.</li>
+          <li>
+            - Biasanya setiap bulan ada yang rilis 4 edisi, ada yang 5 edisi.
+          </li>
           <li>- Bisa filter berdasarkan tahun di bawah ini.</li>
         </ul>
       </div>
@@ -196,7 +181,6 @@ const Content = () => {
         </form>
       </div>
 
-      {/* Tabel Editable */}
       <div className="overflow-x-auto rounded-lg border border-gray-200 mt-10 sm:mb-10 mb-2">
         <table className="min-w-full divide-y divide-gray-200 bg-white dark:bg-gray-800 text-sm dark:text-white">
           <thead>
@@ -251,7 +235,6 @@ const Content = () => {
         </table>
       </div>
 
-      {/* Tombol Save */}
       <div className="sm:mt-6 mb-10 text-right">
         <button
           onClick={handleSave}

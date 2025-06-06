@@ -87,7 +87,6 @@ export async function PATCH(req: NextRequest, context: any) {
     const body = await req.json();
     const { name, tahun } = body;
 
-    // Validasi sederhana
     if (!name || !tahun) {
       return new Response(JSON.stringify({ error: "Field tidak lengkap" }), {
         status: 400,
